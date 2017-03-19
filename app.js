@@ -306,8 +306,8 @@ app.startNotificationSettings = function(device)
 						app.sensortag.MOVEMENT_DATA,
 						function(data)
 						{
+							// First in just means this is their first time in this function
 							firstIn++;
-							// app.showInfo('Status: Data stream active - accelerometer + gyroscope');
 							var dataArray = new Uint8Array(data);
 							var values = app.getAccelGyroscopeValues(dataArray);
 
@@ -329,12 +329,9 @@ app.startNotificationSettings = function(device)
 									var sumAccelValueX = accelArrayX.reduce((a, b) => a + b, 0);
 									var sumAccelValueY = accelArrayY.reduce((a, b) => a + b, 0);
 
-									// 14% - 25% range, they are prob not straight even if in bounds
-
 									// TotalAccelX should be by default
 									app.showInfo1('X Max: ' + maxAccelValueX);
 									app.showInfo2('X Sum: ' + sumAccelValueX);
-									// app.showInfo2('Y: ' + trialY.length);
 									var ratio = sumAccelValueX / sumAccelValueY;
 									var bound = maxAccelValueX/sumAccelValueX * 100;
 									app.showInfo(ratio);
@@ -344,9 +341,14 @@ app.startNotificationSettings = function(device)
 									// var lowerBound = 24.2;
 									var lowerBound = 30.2;
 
+									// Ratio is extremely high if user shoots straight but
+									// they are moving very slowly (or not moving)
+									// If ratio is less than 0.65, that means Y acceleration >> X acceleration
+									// Basically means they are straight in most cases
 									if (ratio < 0.65 || ratio > 3.4) {
 										app.showInfo3('Straight')
 									} else if (ratio > 2.0 && bound < 12) {
+										// Edge case for slow movements but straight
 										app.showInfo3('Straight');
 									} else if (ratio <= acceptableRatio && (bound <= lowerBound || bound >= 45)) {
 										app.showInfo3('Straight');
@@ -360,9 +362,7 @@ app.startNotificationSettings = function(device)
 										app.showInfo3('Straight')
 									}
 
-									doSomething();
 									clearTimeout(timer);
-
 
 								}, 1500);
 							}
@@ -377,10 +377,6 @@ app.startNotificationSettings = function(device)
 							// Y is the direction of the shot
 							// totalAccelY+= Math.abs(accelValues.y * 10);
 							totalAccelY.push(Math.abs(accelValues.y * 10));
-
-							// TODO: remove -- Wont need this later
-							// app.drawDiagram(accelValues);
-							// app.drawDiagram(gyroValues);
 						},
 						function(errorCode)
 						{
@@ -428,63 +424,6 @@ app.getAccelGyroscopeValues = function(data)
 	// sensorDataArray[1] shows Accelerometer values
 	// app.showInfo(sensorDataArray[0].y);
 	return sensorDataArray;
-};
-
-/**
- * Plot diagram of sensor values.
- * Values plotted are expected to be between -1 and 1
- * and in the form of objects with fields x, y, z.
- */
-app.drawDiagram = function(values)
-{
-	var canvas = document.getElementById('canvas');
-	var context = canvas.getContext('2d');
-
-	// Add recent values.
-	app.dataPoints.push(values);
-
-	// Remove data points that do not fit the canvas.
-	if (app.dataPoints.length > canvas.width)
-	{
-		app.dataPoints.splice(0, (app.dataPoints.length - canvas.width));
-	}
-
-	// Value is an accelerometer reading between -1 and 1.
-	function calcDiagramY(value)
-	{
-		// Return Y coordinate for this value.
-		var diagramY =
-			((value * canvas.height) / 2)
-			+ (canvas.height / 2);
-		return diagramY;
-	}
-
-	function drawLine(axis, color)
-	{
-		context.strokeStyle = color;
-		context.beginPath();
-		var lastDiagramY = calcDiagramY(
-			app.dataPoints[app.dataPoints.length-1][axis]);
-		context.moveTo(0, lastDiagramY);
-		var x = 1;
-		for (var i = app.dataPoints.length - 2; i >= 0; i--)
-		{
-			var y = calcDiagramY(app.dataPoints[i][axis]);
-			context.lineTo(x, y);
-			x++;
-		}
-		context.stroke();
-	}
-
-	// Clear background.
-	context.clearRect(0, 0, canvas.width, canvas.height);
-
-	// Draw lines.
-	drawLine('x', '#039BE5'); // blue
-	drawLine('y', '#E53935'); // red
-
-	// Care about the z for gyro
-	// drawLine('z', '#F57F17'); // orange
 };
 
 // Initialize the app.

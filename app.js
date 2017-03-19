@@ -20,6 +20,7 @@ app.CONNECT_TIMEOUT = 3000;
  */
 app.sensortag = {};
 
+// DO NOT TOUCH!
 // UUIDs for movement services and characteristics.
 app.sensortag.MOVEMENT_SERVICE = 'f000aa80-0451-4000-b000-000000000000';
 app.sensortag.MOVEMENT_DATA = 'f000aa81-0451-4000-b000-000000000000';
@@ -41,32 +42,6 @@ app.initialize = function()
 		'deviceready',
 		function() { evothings.scriptsLoaded(app.onDeviceReady) },
 		false);
-
-	// Called when HTML page has been loaded.
-	$(document).ready( function()
-	{
-		// Adjust canvas size when browser resizes
-		$(window).resize(app.respondCanvas);
-
-		// Adjust the canvas size when the document has loaded.
-		app.respondCanvas();
-	});
-};
-
-/**
- * Adjust the canvas dimensions based on its container's dimensions.
- */
-app.respondCanvas = function()
-{
-	var canvas = $('#canvas')
-	var container = $(canvas).parent()
-	canvas.attr('width', $(container).width() ) // Max width
-	// Not used: canvas.attr('height', $(container).height() ) // Max height
-
-	// var canvasGyro = $('#canvasGyro')
-	// var container = $(canvasGyro).parent()
-	// canvasGyro.attr('width', $(container).width() ) // Max width
-	// Not used: canvas.attr('height', $(container).height() ) // Max height
 };
 
 app.onDeviceReady = function()
@@ -79,6 +54,7 @@ app.showInfo = function(info)
 	document.getElementById('info').innerHTML = info;
 };
 
+// Additional logging
 app.showInfo1 = function(info)
 {
 	document.getElementById('info1').innerHTML = info;
@@ -405,6 +381,7 @@ app.getAccelGyroscopeValues = function(data)
 	var divisors = { x: -5000.0, y: 16384.0, z: -16384.0 };
 
 	// Calculate Gyroscope values.
+	// Not using at the moment but added it just in case for future
 	var gx = evothings.util.littleEndianToInt16(data, 0) * 255.0 / 32768.0 / 260
 	var gy = evothings.util.littleEndianToInt16(data, 2) * 255.0 / 32768.0 / 260
 	var gz =  evothings.util.littleEndianToInt16(data, 4) * 255.0 / 32768.0 / 260

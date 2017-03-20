@@ -1,0 +1,94 @@
+ header {
+     background-color: #6bb79b;
+ }
+
+ .header {
+     text-align: center;
+ }
+
+h1 {
+    font-size: 20px;
+    color: white;
+    letter-spacing: 1px;
+}
+
+p {
+    font-size: 16px;
+    color: white;
+}
+
+html, body {
+    background-color: #333333;
+}
+
+.disclaimer {
+    position: relative;
+    margin-top: 30px;
+    background-color: #414141;
+    height: 110px;
+    width: 305px;
+    text-align: center;
+}
+
+.disclaimer-text {
+    position: absolute;
+    color: white;
+    top: 30%;
+    width: 288px;
+    font-size: 20px;
+}
+
+.shot-map {
+    margin-top: 30px;
+    display: flex;
+    height: 74px
+}
+
+.set-text {
+    height: 100%;
+    font-size: 18px;
+    color: white;
+    width: 55px;
+    margin-right: 20px;
+}
+
+.circles {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 220px;
+}
+
+.circle-row {
+    display: flex;
+}
+
+.circle-row:first-child {
+    margin-bottom: 24px;
+}
+
+.circle {
+    margin-right: 23px;
+}
+
+.results {
+    margin-top: 20px;
+}
+
+.main-button {
+    text-align:center;
+    line-height: 50px;
+    height: 50px;
+    width: 215px;
+    color: white;
+    font-size: 20px;
+    background-color: #6bb79b;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.main-button:active {
+    background-color: #5CA087;
+}
+
+/* background color for box: 414141 */

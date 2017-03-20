@@ -42,7 +42,33 @@ app.initialize = function()
 		'deviceready',
 		function() { evothings.scriptsLoaded(app.onDeviceReady) },
 		false);
+
+	// // Called when HTML page has been loaded.
+	// $(document).ready( function()
+	// {
+	// 	// Adjust canvas size when browser resizes
+	// 	$(window).resize(app.respondCanvas);
+	//
+	// 	// Adjust the canvas size when the document has loaded.
+	// 	app.respondCanvas();
+	// });
 };
+
+/**
+ * Adjust the canvas dimensions based on its container's dimensions.
+ */
+// app.respondCanvas = function()
+// {
+// 	var canvas = $('#canvas')
+// 	var container = $(canvas).parent()
+// 	canvas.attr('width', $(container).width() ) // Max width
+// 	// Not used: canvas.attr('height', $(container).height() ) // Max height
+//
+// 	// var canvasGyro = $('#canvasGyro')
+// 	// var container = $(canvasGyro).parent()
+// 	// canvasGyro.attr('width', $(container).width() ) // Max width
+// 	// Not used: canvas.attr('height', $(container).height() ) // Max height
+// };
 
 app.onDeviceReady = function()
 {
@@ -54,7 +80,6 @@ app.showInfo = function(info)
 	document.getElementById('info').innerHTML = info;
 };
 
-// Additional logging
 app.showInfo1 = function(info)
 {
 	document.getElementById('info1').innerHTML = info;

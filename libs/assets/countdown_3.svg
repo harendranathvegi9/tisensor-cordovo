@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="159px" height="164px" viewBox="0 0 159 164" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>countdown_3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="countdown_3">
+            <g id="Countdown">
+                <text id="3" font-family="AvenirNext-Medium, Avenir Next" font-size="120" font-weight="400" fill="#FFFFFF">
+                    <tspan x="37" y="120">3</tspan>
+                </text>
+                <ellipse id="Oval" stroke="#FFFFFF" stroke-width="5" cx="70" cy="79" rx="70" ry="70"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

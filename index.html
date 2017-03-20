@@ -10,6 +10,7 @@
 
 	<style>
 		@import 'ui/css/evothings-app.css';
+		@import 'ui/css/custom.css';
 	</style>
 
 	<script>
@@ -29,19 +30,61 @@
 <body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
 
 	<header>
-		<img class="logotype" src="ui/images/logo.svg" alt="Group 9 - Pooli" />
+		<img class="logotype" src="libs/assets/pooli.svg" alt="Group 9 - Pooli" />
 	</header>
 
-	<h1>Pooli - Billiard Assist</h1>
+	<div class="header">
+		<h1>Training Mode</h1>
+		<p>
+			Press the button on your front sensor and listen for the 2nd beep to
+			make your shot
+		</p>
+	</div>
 
-	<p id="info">Not Connected</p>
+	<div class="disclaimer">
+		<div class="disclaimer-text">Press front sensor button to begin.</div>
+	</div>
+
+	<div class="shot-map">
+		<div class="set-text">SET 1</div>
+		<div class="circles">
+			<div class="circle-row">
+				<div class="circle" id="circle1"><img src="libs/assets/free_shot.svg"></div>
+				<div class="circle" id="circle2"><img src="libs/assets/free_shot.svg"></div>
+				<div class="circle" id="circle3"><img src="libs/assets/free_shot.svg"></div>
+				<div class="circle" id="circle4"><img src="libs/assets/free_shot.svg"></div>
+				<div class="circle" id="circle5"><img src="libs/assets/free_shot.svg"></div>
+			</div>
+			<div class="circle-row">
+				<div class="circle" id="circle6"><img src="libs/assets/free_shot.svg"></div>
+				<div class="circle" id="circle7"><img src="libs/assets/free_shot.svg"></div>
+				<div class="circle" id="circle8"><img src="libs/assets/free_shot.svg"></div>
+				<div class="circle" id="circle9"><img src="libs/assets/free_shot.svg"></div>
+				<div class="circle" id="circle10"><img src="libs/assets/free_shot.svg"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="results">
+		<div class="results-straight">
+			<p>Straight shots: <span class="num-straight"></span></p>
+		</div>
+		<div class="results-straight">
+			<p>Curved shots: <span class="num-straight"></span></p>
+		</div>
+	</div>
+
+	<div class="main-button">End Session</div>
+
+
+	<!-- <p id="info">Not Connected</p>
 	<p id="info1"></p>
 	<p id="info2"></p>
 	<p id="info3"></p>
-	<p id="info4"></p>
+	<p id="info4"></p> -->
 
-	<button onclick="app.onStartButton()" class="green">LET'S FUCKING DO THIS</button>
-	<button onclick="app.onStopButton()" class="red">STOP GAME</button>
+	<!-- <button onclick="app.onStartButton()" class="green">LET'S FUCKING DO THIS</button>
+	<button onclick="app.onStopButton()" class="red">STOP GAME</button> -->
 
 	<audio id="myAudio">
 	  <source src="ding.mp3" type="audio/mpeg">

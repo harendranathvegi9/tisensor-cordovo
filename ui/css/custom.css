@@ -26,9 +26,41 @@ html, body {
     margin-top: 30px;
     background-color: #414141;
     height: 110px;
-    width: 305px;
+    width: 100%;
     text-align: center;
+    display: block;
 }
+
+.message {
+    background-color: #333333;
+    text-align: center;
+    display: none;
+}
+
+.message-text {
+    margin-top: -20px;
+    margin-bottom: 30px;
+    margin-left: 6px;
+    font-size: 85px;
+}
+
+.message-text-result {
+    margin-top: -20px;
+    margin-bottom: 30px;
+    margin-left: 6px;
+    font-size: 65px;
+}
+
+/*.message-text {
+    color: blue;
+    font-size: 90px;
+}
+
+.message-text:before {
+    content '';
+    background-color: blue;
+    border: 1px solid white;
+}*/
 
 .disclaimer-text {
     position: absolute;
@@ -75,6 +107,13 @@ html, body {
     margin-top: 20px;
 }
 
+.results-straight p,
+.results-straight span,
+.results-curved p,
+.results-curved span {
+    font-size: 18px;
+}
+
 .main-button {
     text-align:center;
     line-height: 50px;
@@ -89,6 +128,82 @@ html, body {
 
 .main-button:active {
     background-color: #5CA087;
+}
+
+/************************* FINAL PAGE ********************/
+.final-page {
+    display: none;
+}
+
+.percentage-results {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  text-align: center;
+  color: white;
+}
+
+.percentage {
+  font-size: 48px;
+}
+
+.percentage-text {
+  font-size: 16px;
+}
+
+.score-box {
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+  text-align: center;
+  margin-top: 30px;
+  background-color: #414141;
+  height: 140px;
+  width: 305px;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+}
+
+.score-box img {
+  margin-right: 5px;
+}
+
+.score-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+  font-size: 25px;
+}
+
+.tips-header {
+  font-size: 20px;
+  margin-top: 30px;
+  font-weight: bold;
+}
+
+.tips-box {
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+  background-color: #414141;
+  /*height: 140px;*/
+  /*padding: 0 20px;*/
+  width: 305px;
+  color: white;
+}
+
+.tips-list {
+  list-style-type: disc;
+  margin-left: 20px;
+  font-size: 16px;
+  width: 275px;
+  list-style-position: outside
+}
+
+.tip {
+  margin-left: 20px;
 }
 
 /* background color for box: 414141 */

@@ -5,6 +5,13 @@
  */
 var app = {};
 
+
+// Global scores
+var set = 1;
+var score = 0;
+var straight = 0;
+var curved = 0;
+
 /**
  * Data that is plotted on the canvas.
  */
@@ -36,68 +43,77 @@ app.sensortag.KEYPRESS_DATA = '0000ffe1-0000-1000-8000-00805f9b34fb';
  * Initialise the application.
  */
 
+function getResults() {
+
+	$(".main-page").hide();
+	$(".final-page").show();
+
+	var totalShots = curved + straight;
+	var percentageIn = Math.floor(straight / totalShots * 100) || 0;
+
+	$("#straight-shots").html(straight);
+	$("#curved-shots").html(curved);
+	$("#num-sets").html(set);
+	$("#shots-made").html(totalShots);
+	$("#percentage").html(percentageIn + "%")
+
+	var tips = [
+		"Make sure you are as low to the table as possible",
+		"Make sure you follow through with your shot",
+		"Do not rotate your wrists while making your shot",
+		"Keep your shooting elbow in one spot, and only bend your elbow during the shot"
+	];
+
+	var numberOfTips = getRandomArbitrary(1, tips.length);
+
+	$('.tips-list').html(setTipsHTML);
+
+	function getRandomArbitrary(min, max) {
+		return Math.floor(Math.random() * (max - min) + min);
+	}
+
+	function setTipsHTML () {
+		var tipsToShow = "";
+
+		for (var i = 0; i < numberOfTips; i++ ){
+		tipsToShow += '<li class="tip">'+ tips[i] +'</li>'
+		}
+
+		return tipsToShow;
+	}
+}
+
+function backMainPage() {
+	$(".main-page").show();
+	$(".final-page").hide();
+}
+
 app.initialize = function()
 {
 	document.addEventListener(
 		'deviceready',
 		function() { evothings.scriptsLoaded(app.onDeviceReady) },
 		false);
-
-	// // Called when HTML page has been loaded.
-	// $(document).ready( function()
-	// {
-	// 	// Adjust canvas size when browser resizes
-	// 	$(window).resize(app.respondCanvas);
-	//
-	// 	// Adjust the canvas size when the document has loaded.
-	// 	app.respondCanvas();
-	// });
 };
-
-/**
- * Adjust the canvas dimensions based on its container's dimensions.
- */
-// app.respondCanvas = function()
-// {
-// 	var canvas = $('#canvas')
-// 	var container = $(canvas).parent()
-// 	canvas.attr('width', $(container).width() ) // Max width
-// 	// Not used: canvas.attr('height', $(container).height() ) // Max height
-//
-// 	// var canvasGyro = $('#canvasGyro')
-// 	// var container = $(canvasGyro).parent()
-// 	// canvasGyro.attr('width', $(container).width() ) // Max width
-// 	// Not used: canvas.attr('height', $(container).height() ) // Max height
-// };
 
 app.onDeviceReady = function()
 {
-	app.showInfo('Activate the SensorTag and tap Start.');
+	app.onStartButton();
 };
 
 app.showInfo = function(info)
 {
-	document.getElementById('info').innerHTML = info;
+	document.getElementById('message').innerHTML = info;
 };
 
-app.showInfo1 = function(info)
+app.showInfoCounter = function(info)
 {
-	document.getElementById('info1').innerHTML = info;
+	document.getElementById('message').innerHTML = '<div class="message-text">' + info + '</div>';
 };
 
-app.showInfo2 = function(info)
+app.showInfoResult = function(info)
 {
-	document.getElementById('info2').innerHTML = info;
-};
-
-app.showInfo3 = function(info)
-{
-	document.getElementById('info3').innerHTML = info;
-};
-
-app.showInfo4 = function(info)
-{
-	document.getElementById('info4').innerHTML = info;
+	document.getElementById('message').innerHTML = '<div class="message-text" style="font-size: 65px">' + info + '</div>';
 };
 
 // This will call the initial function
@@ -105,7 +121,7 @@ app.onStartButton = function()
 {
 	app.onStopButton();
 	app.startScan();
-	app.showInfo('Status: Scanning...');
+	// app.showInfo('Status: Scanning...');
 	app.startConnectTimer();
 };
 
@@ -115,8 +131,18 @@ app.onStopButton = function()
 	app.stopConnectTimer();
 	evothings.easyble.stopScan();
 	evothings.easyble.closeConnectedDevices();
-	app.showInfo('Status: Stopped.');
+	// app.showInfo('Status: Stopped.');
 };
+
+app.getResultsButton = function() {
+	app.onStopButton();
+	getResults();
+}
+
+app.backMainPageButton = function() {
+	backMainPage();
+	app.onStartButton();
+}
 
 app.startConnectTimer = function()
 {
@@ -125,8 +151,8 @@ app.startConnectTimer = function()
 	app.connectTimer = setTimeout(
 		function()
 		{
-			app.showInfo('Status: Scanning... ' +
-				'Please press the activate button on the tag.');
+			// app.showInfo('Status: Scanning... ' +
+			// 	'Please press the activate button on the tag.');
 		},
 		app.CONNECT_TIMEOUT)
 }
@@ -145,7 +171,7 @@ app.startScan = function()
 			// Connect if we have found a sensor tag.
 			if (app.deviceIsSensorTag(device))
 			{
-				app.showInfo('Status: Device found: ' + device.name + '.');
+				// app.showInfo('Status: Device found: ' + device.name + '.');
 				evothings.easyble.stopScan();
 				app.connectToDevice(device);
 				app.stopConnectTimer();
@@ -171,12 +197,14 @@ app.deviceIsSensorTag = function(device)
  */
 app.connectToDevice = function(device)
 {
-	app.showInfo('Connecting...');
+	// app.showInfo('Connecting...');
 	device.connect(
 		function(device)
 		{
-			app.showInfo('Status: Connected - reading SensorTag services...');
+			// app.showInfo('Status: Connected - reading SensorTag services...');
 			app.readServices(device);
+			$(".num-straight").html("0");
+			$(".num-curved").html("0");
 		},
 		function(errorCode)
 		{
@@ -204,7 +232,7 @@ app.readServices = function(device)
  */
 app.startNotificationSettings = function(device)
 {
-	app.showInfo('Status: Starting motion detection notification...');
+	// app.showInfo('Status: Starting motion detection notification...');
 
 	// Set accelerometer configuration to ON.
 	// magnetometer on: 64 (1000000) (seems to not work in ST2 FW 0.89)
@@ -265,13 +293,17 @@ app.startNotificationSettings = function(device)
 		{
 			var timeDelayStart = 3500;
 			var dataArray = new Uint8Array(data);
-			var ding = document.getElementById("myAudio");
+			var startDing = document.getElementById("myAudio");
+			var shootDing = document.getElementById("myAudio2");
 
 			// app.showInfo('This: ' + dataArray);
 
 			// When user presses the button
 			// Base case (nothing pressed) is at 0
 			if (dataArray == '2') {
+				startDing.play();
+				$("#start-message-container").hide();
+				$("#message-container").show();
 
 				if(countdown) {
 					clearInterval(countdown)
@@ -281,15 +313,15 @@ app.startNotificationSettings = function(device)
 				}
 
 				var counter = 3;
-				app.showInfo(counter);
+				app.showInfoCounter(counter);
 				var countdown = setInterval(function() {
 					counter--;
-					app.showInfo(counter);
+					app.showInfoCounter(counter);
 					if (counter == 0) {
-						app.showInfo('GO');
+						app.showInfoResult('Shoot');
 						clearInterval(countdown);
 						// Play a sound as feedback
-						ding.play();
+						shootDing.play();
 					}
 				}, 1000)
 
@@ -331,37 +363,63 @@ app.startNotificationSettings = function(device)
 									var sumAccelValueY = accelArrayY.reduce((a, b) => a + b, 0);
 
 									// TotalAccelX should be by default
-									app.showInfo1('X Max: ' + maxAccelValueX);
-									app.showInfo2('X Sum: ' + sumAccelValueX);
+									// app.showInfo1('X Max: ' + maxAccelValueX);
+									// app.showInfo2('X Sum: ' + sumAccelValueX);
 									var ratio = sumAccelValueX / sumAccelValueY;
 									var bound = maxAccelValueX/sumAccelValueX * 100;
-									app.showInfo(ratio);
-									app.showInfo4(bound + '%')
+									// app.showInfo(ratio);
+									// app.showInfo4(bound + '%')
 
 									var acceptableRatio = 1.37;
 									// var lowerBound = 24.2;
 									var lowerBound = 30.2;
 
+									score++;
+									if (score > 10) {
+										set++;
+										score = 1;
+										for (var x = 1; x <= 10; x++) {
+											$("#circle" + x + " img").attr('src', 'libs/assets/free_shot.svg')
+										}
+										$(".set-text").html('SET ' + set);
+									}
 									// Ratio is extremely high if user shoots straight but
 									// they are moving very slowly (or not moving)
 									// If ratio is less than 0.65, that means Y acceleration >> X acceleration
 									// Basically means they are straight in most cases
 									if (ratio < 0.65 || ratio > 3.4) {
-										app.showInfo3('Straight')
+										app.showInfoResult('Straight')
+										straight++;
+										$("#circle" + score + " img").attr('src', 'libs/assets/straight_shot.svg')
 									} else if (ratio > 2.0 && bound < 12) {
 										// Edge case for slow movements but straight
-										app.showInfo3('Straight');
+										app.showInfoResult('Straight');
+										straight++;
+										$("#circle" + score + " img").attr('src', 'libs/assets/straight_shot.svg')
 									} else if (ratio <= acceptableRatio && (bound <= lowerBound || bound >= 45)) {
-										app.showInfo3('Straight');
+										app.showInfoResult('Straight');
+										straight++;
+										$("#circle" + score + " img").attr('src', 'libs/assets/straight_shot.svg')
 									} else if (ratio <= acceptableRatio && bound > lowerBound && bound < 45) {
-										app.showInfo3('Not straight, some curved')
+										app.showInfoResult('Curved')
+										curved++;
+										$("#circle" + score + " img").attr('src', 'libs/assets/curved_shot.svg')
 									} else if (ratio > acceptableRatio && bound < 45) {
-										app.showInfo3('Not straight, some curved')
+										app.showInfoResult('Curved')
+										curved++;
+										$("#circle" + score + " img").attr('src', 'libs/assets/curved_shot.svg')
 									} else if (ratio > acceptableRatio && bound >= 45) {
-										app.showInfo3('Straight')
+										app.showInfoResult('Straight')
+										straight++;
+										$("#circle" + score + " img").attr('src', 'libs/assets/straight_shot.svg')
 									} else {
-										app.showInfo3('Straight')
+										app.showInfoResult('Curved')
+										$("#circle" + score + " img").attr('src', 'libs/assets/curved_shot.svg')
+										curved++;
 									}
+
+									$(".num-straight").html(straight);
+									$(".num-curved").html(curved);
 
 									clearTimeout(timer);
 

@@ -42,8 +42,12 @@
 			</p>
 		</div>
 
-		<div class="disclaimer">
-			<div class="disclaimer-text">Press front sensor button to begin.</div>
+		<div class="disclaimer" id="start-message-container">
+			<div class="disclaimer-text" id="start-message">Press front sensor button to begin.</div>
+		</div>
+
+		<div class="disclaimer message" id="message-container">
+			<div class="disclaimer-text message-text" id="message"></div>
 		</div>
 
 		<div class="shot-map">
@@ -70,15 +74,49 @@
 			<div class="results-straight">
 				<p>Straight shots: <span class="num-straight"></span></p>
 			</div>
-			<div class="results-straight">
-				<p>Curved shots: <span class="num-straight"></span></p>
+			<div class="results-curved">
+				<p>Curved shots: <span class="num-curved"></span></p>
 			</div>
 		</div>
 
-		<div class="main-button">End Session</div>
+		<div class="main-button" onclick="app.getResultsButton()">End Session</div>
 	</div>
 
+	<div class="final-page">
+		<div class="header">
+			<h1>Results</h1>
+			<p>
+				You have completed your training!<br />
+				Your results are shown below.
+			</p>
+		</div>
 
+		<div class="percentage-results">
+			<div class="percentage" id="percentage">0%</div>
+			<div class="percentage-text">straight shots</div>
+		</div>
+
+		<div class="score-box">
+			<div class="score">Shots made: <span id="shots-made">(number) </span> [<span id="num-sets">#</span> sets]</div>
+			<div class="score-result">
+				<img src="libs/assets/straight_shot.svg"/>
+				<p>Total straight: <span id="straight-shots">(number)</span </p>
+			</div>
+			<div class="score-result">
+				<img src="libs/assets/curved_shot.svg"/>
+				<p>Total curved: <span id="curved-shots"> (number)</span></p>
+			</div>
+		</div>
+
+		<p class="tips-header">TIPS</p>
+		<div class="tips-box" id="tips-box">
+			<ul class="tips-list">
+
+			</ul>
+		</div>
+
+		<div class="main-button" onclick="app.backMainPageButton()">Try Again</div>
+	</div>
 	<!-- <p id="info">Not Connected</p>
 	<p id="info1"></p>
 	<p id="info2"></p>
@@ -89,6 +127,10 @@
 	<button onclick="app.onStopButton()" class="red">STOP GAME</button> -->
 
 	<audio id="myAudio">
+	  <source src="ding.mp3" type="audio/mpeg">
+	</audio>
+
+	<audio id="myAudio2">
 	  <source src="ding.mp3" type="audio/mpeg">
 	</audio>
 
